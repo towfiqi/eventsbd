@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Container, Content, Text, Button, Icon } from 'native-base';
-import { Image, ImageBackground, StyleSheet, AsyncStorage } from 'react-native';
+import { Image, ImageBackground, StyleSheet, AsyncStorage, NetInfo } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import Expo from "expo";
 import { getLastDayOfMonth } from '../../helpers/index'
 import {getUserData} from '../../actions/userActions';
+import {getUserConnection} from '../../actions/settingsActions';
 import keys from '../../../keys';
 
 const headers = {
@@ -29,9 +30,13 @@ class Splash extends Component {
       Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
       Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf"),
     });
-    this.setState({ loading: false });
 
-    this.fetchEventsCount();
+    const eventsCount =  await AsyncStorage.getItem('eventsThisMonth');
+    this.setState({ loading: false, count: eventsCount ? Number(eventsCount) : 0});
+    
+    //NetInfo.isConnected.fetch().then(async (connected) =>  this.props.getUserConnection(await connected));
+
+    console.log('User settings: ', this.props.settings);
     var currentUser =  await AsyncStorage.getItem('currentUser');
     currentUser = currentUser ? JSON.parse(currentUser) : '';
 
@@ -47,9 +52,23 @@ class Splash extends Component {
         this.props.getUserData(currentUser); 
         return this.redirectAfterLogin();
        }      
+    }else{
+      this.fetchEventsCount();
     }
 
   }
+
+  componentDidMount() {
+    NetInfo.isConnected.addEventListener('connectionChange', this._handleConnectionChange);
+  }
+
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener('connectionChange', this._handleConnectionChange);
+  }
+
+  _handleConnectionChange = async (isConnected)  => {
+    this.props.getUserConnection( await isConnected);
+  };
 
   fetchEventsCount = () => {
     const query = `&where={"end_time":{"$gte":{"__type":"Date","iso":"${new Date().toISOString()}"}}, "start_time":{"$lte":{"__type":"Date","iso":"${getLastDayOfMonth(new Date())}"}}}`
@@ -57,7 +76,10 @@ class Splash extends Component {
       }).then((res)=> {
         const {count} =  JSON.parse(res._bodyInit);
         //console.log('Events Fetched: ', count);
-        this.setState({ count: Number(count)});
+        if(count){
+          AsyncStorage.setItem('eventsThisMonth', JSON.stringify(count));
+        }
+        
     });
   }
 
@@ -93,10 +115,9 @@ class Splash extends Component {
 
   }
 
-  async loginUser () {
+   loginUser = async () =>  {
+     console.log('user settings',this.props.settings);
     //console.log('Login Button Clicked!');
-    //this.props.navigation.navigate('Home');
-
         const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync('325349167872243', {
             permissions: ['public_profile', 'user_events']
         });
@@ -104,7 +125,7 @@ class Splash extends Component {
           // Get the user's name using Facebook's Graph API
           const response = await fetch(`https://graph.facebook.com/me?fields=gender,name&access_token=${token}`);
           //const profilePic = await fetch(`https://graph.facebook.com/me/picture?width=250&height=250&access_token=${token}`);
-          
+          //console.log(response);
           let userData = JSON.parse(response._bodyInit);
           //const user = {...userData, photo: profilePic.url};
           AsyncStorage.setItem('currentUser', JSON.stringify({id: userData.id, name:userData.name, gender:userData.gender ? userData.gender :'', last_login: new Date()}));
@@ -140,7 +161,7 @@ class Splash extends Component {
                       <Image style={styles.logo} source={require('../../assets/logo.png')} />
                       <Text style={styles.subtitle}>Enjoy {this.state.count} Events This Month</Text>
 
-                      <Button style={styles.loginButton} bordered rounded onPress={this.loginUser.bind(this)}>
+                      <Button style={styles.loginButton} bordered rounded onPress={this.loginUser}>
                         <Icon style={styles.fbIcon} name='logo-facebook' />
                         <Text style={styles.loginButtonText} uppercase={false}>Login With Facebook</Text>
                       </Button>
@@ -201,8 +222,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    userData: state.user
+    userData: state.user,
+    settings: state.settings
   }
 }
 
-export default connect(mapStateToProps, {getUserData})(Splash);
+export default connect(mapStateToProps, {getUserData, getUserConnection})(Splash);

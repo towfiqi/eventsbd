@@ -25,7 +25,7 @@
     "@expo/vector-icons": "^6.2.2",
     "axios": "^0.17.1",
     "expo": "^23.0.6",
-    "native-base": "^2.3.7",
+    "native-base": "^2.3.8",
     "parse": "^1.11.0",
     "parse-react": "^0.5.2",
     "react": "16.0.0",

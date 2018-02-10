@@ -24,7 +24,8 @@ class Events extends Component {
             sortBy: 'recent', 
             dateBy:'all_time', 
             message: '',
-            user_events:[]
+            user_events:[],
+            loadingMore:false
         }
     }
 
@@ -58,6 +59,7 @@ class Events extends Component {
         if(this.state.dateBy === 'today' || this.state.dateBy === 'tomorrow' || this.state.dateBy === 'this_week'){
             return
         }
+        this.setState({loadingMore:true});
         this.fetchEvents('loadMore', this.state.sortBy, this.state.dateBy);
     }
 
@@ -126,7 +128,11 @@ class Events extends Component {
                         onEndReachedThreshold={0.5}
                         onEndReached={this._loadMore}
                     />
-
+                    {this.state.loadingMore === true && 
+                        <View style={styles.loadingMore}>
+                                <ActivityIndicator size="large" color="#fff" />
+                        </View>
+                    }
                 <SortModal 
                 visible={this.state.sortModalVisible} 
                 sortChange={this.sortChange} 
@@ -198,7 +204,7 @@ class Events extends Component {
             //var message;
             if(mode === 'loadMore'){
                 let newevents = [...this.state.events, ...results];
-                return this.setState({ events: newevents});
+                return this.setState({ events: newevents, loadingMore: false});
             }
 
             this.setState({ events: results, count: Number(count)});
@@ -307,6 +313,17 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#767253',
         paddingTop:4,
+    },
+    loadingMore:{
+        flex:1, 
+        alignItems:'center',
+        position:'absolute', 
+        zIndex:3, 
+        bottom: -25, 
+        backgroundColor:'#e85c39', 
+        borderRadius:100, 
+        padding:4, 
+        alignSelf:'center'
     }
 });
 

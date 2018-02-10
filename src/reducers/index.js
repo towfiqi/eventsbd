@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import tabReducer from './tabReducer';
 import userReducer from './userReducer';
-import navReducer from './navReducer';
+import settingsReducer from './settingsReducer';
 
 export default combineReducers({
     tab: tabReducer,
     user: userReducer,
-    //nav: navReducer
+    settings: settingsReducer
 })
