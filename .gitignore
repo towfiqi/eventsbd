@@ -19,3 +19,4 @@ yarn-error.log*
 node_modules/
 .vscode/
 keys.js
+app.json
