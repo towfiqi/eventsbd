@@ -1,6 +1,8 @@
 {
   "name": "eventsbd",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "description": "An app to browse through all the events happening in Dhaka",
+  "author": "Towfiq I",
   "private": true,
   "devDependencies": {
     "babel-eslint": "^8.2.1",

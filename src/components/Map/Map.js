@@ -125,7 +125,7 @@ class Map extends Component {
                 if(event.id === this.state.active){
                     return <MapView.Marker identifier={event.id.toString()} onPress={()=>this.onMarkerPress(event.id, index, latlng)} key={event.id} coordinate={latlng} /> 
                 }else{
-                    return <MapView.Marker identifier={event.id.toString()} image={require('../../assets/icon.png')} onPress={()=>this.onMarkerPress(event.id, index, latlng)} key={event.id} coordinate={latlng} />
+                    return <MapView.Marker identifier={event.id.toString()} image={require('../../assets/pin.png')} onPress={()=>this.onMarkerPress(event.id, index, latlng)} key={event.id} coordinate={latlng} />
                 }
             }
         ))

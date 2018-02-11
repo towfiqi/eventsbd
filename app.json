@@ -1,5 +1,23 @@
 {
   "expo": {
-    "sdkVersion": "23.0.0"
+    "name":"Events BD",
+    "description": "An app to browse through all the events happening in Bangladesh",
+    "version":"1.0.0",
+    "orientation":"portrait",
+    "sdkVersion": "23.0.0",
+    "privacy":"public",
+    "slug":"eventsbd",
+    "primaryColor":"#e66134",
+    "icon":"./src/assets/icon.png",
+    "ios":{
+      "supportsTablet":false,
+      "bundleIdentifier": "com.amplebyte.eventsbd",
+      "buildNumber":"1"
+    },
+    "android":{
+      "package": "com.amplebyte.eventsbd",
+      "permissions":[],
+      "versionCode":1
+    }
   }
 }
