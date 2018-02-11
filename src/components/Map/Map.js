@@ -168,7 +168,7 @@ class Map extends Component {
                     tabBarUnderlineStyle={ {backgroundColor: '#f65857'}}
                     tabBarBackgroundColor='#ffffff'
                     >
-                        <Tab heading={ <TabHeading style= {{backgroundColor: 'white'}}><Text>Today</Text></TabHeading>}>
+                        <Tab heading={ <TabHeading style= {{backgroundColor: 'white'}}><Text>Today <Text style={{color:'#bbb', fontSize:11}}>{this.state.today.length || ''}</Text></Text></TabHeading>}>
                             <View style={styles.tabInner}>
                             {this.state.today.length === 0 && this.state.eventsLoaded === false &&
                                 <View style={{flex:1, justifyContent:'center'}}>
@@ -191,7 +191,7 @@ class Map extends Component {
                             </View>
                             
                         </Tab>
-                        <Tab heading={ <TabHeading style= {{backgroundColor: 'white'}}><Text>Tomorrow</Text></TabHeading>}>
+                        <Tab heading={ <TabHeading style= {{backgroundColor: 'white'}}><Text>Tomorrow <Text style={{color:'#bbb', fontSize:11}}>{this.state.tomorrow.length || ''}</Text></Text></TabHeading>}>
                             <View style={styles.tabInner}>
                                 {this.state.tomorrow.length === 0 && this.state.eventsLoaded === false &&
                                     <View style={{flex:1, justifyContent:'center'}}>
@@ -213,7 +213,7 @@ class Map extends Component {
                                 }
                             </View>
                         </Tab>
-                        <Tab heading={ <TabHeading style= {{backgroundColor: 'white'}}><Text>This Weekend</Text></TabHeading>}>
+                        <Tab heading={ <TabHeading style= {{backgroundColor: 'white'}}><Text>This Week <Text style={{color:'#bbb', fontSize:11}}>{this.state.this_week.length || ''}</Text></Text></TabHeading>}>
                             <View style={styles.tabInner}>
 
                                 {this.state.this_week.length === 0 && this.state.eventsLoaded === false &&

@@ -36,7 +36,7 @@ class Splash extends Component {
     
     //NetInfo.isConnected.fetch().then(async (connected) =>  this.props.getUserConnection(await connected));
 
-    console.log('User settings: ', this.props.settings);
+    //console.log('User settings: ', this.props.settings);
     var currentUser =  await AsyncStorage.getItem('currentUser');
     currentUser = currentUser ? JSON.parse(currentUser) : '';
 

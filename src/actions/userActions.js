@@ -16,7 +16,7 @@ export const setUserEvents = (events)=> {
         fetch(`https://parseapi.back4app.com/classes/Users/${currentUser.objectId}`,
         { method:'put', headers: headers, body:JSON.stringify({"events":events})  }).then( (faved)=> {
         const isEventsUpdated = JSON.parse(faved._bodyText).updatedAt ? true : false;
-        console.log(JSON.parse(faved._bodyText));
+        //console.log(JSON.parse(faved._bodyText));
         if(isEventsUpdated){
             //AsyncStorage.setItem('userEvents', JSON.stringify(newEvents));
             dispatch({type:'USER_EVENTS', payload: events});

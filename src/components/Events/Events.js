@@ -192,7 +192,7 @@ class Events extends Component {
         }else{
             message =  `Showing ${sort === 'recent'? 'All':capitalize(sort)} Events Happening ${capitalize(date)}`;
         }
-        this.setState({ message:message });
+        if(mode !== 'loadMore'){ this.setState({ message:message }); }
         keys.apiKey, keys.appID
         fetch(`https://parseapi.back4app.com/classes/Events?limit=${limit}&count=1&order=`+order+query+skip+remove_old,{ 
             method:'get',
@@ -210,7 +210,7 @@ class Events extends Component {
             this.setState({ events: results, count: Number(count)});
 
             setTimeout(()=> {
-                return this.setState({message:''})
+                return this.setState({message:''});
             }, 5000);
             
         });

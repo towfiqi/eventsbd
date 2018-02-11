@@ -106,10 +106,6 @@ class EventCard extends PureComponent {
                             <Text style={styles.infoBlockTop}>{interested_count && interested_count}</Text>
                             <Text style={styles.infoBlockBottom}>Interested</Text>
                         </View>
-                        {/* <View style={styles.infoBlock}>
-                            <Text style={styles.infoBlockTop}>0</Text>
-                            <Text style={styles.infoBlockBottom}>Ants</Text>
-                        </View> */}
                     </CardItem>
                 </Card>
         );
