@@ -48,7 +48,7 @@ class Splash extends Component {
         const userFetched = await fetch(`https://parseapi.back4app.com/classes/Users?where={"id":"${currentUser.id}"}`,{ method:'get', headers: headers });
         const {results} =  JSON.parse(userFetched._bodyText);
         currentUser.events = results[0].events && results[0].events;
-
+        //console.log('Cache User Found: ', currentUser);
         this.props.getUserData(currentUser); 
         return this.redirectAfterLogin();
        }      
@@ -107,7 +107,7 @@ class Splash extends Component {
       currentUser = JSON.parse(currentUser);
       currentUser.objectId = results[0].objectId; currentUser.joined = results[0].createdAt;
       currentUser.events = results[0].events && results[0].events;
-
+      //console.log('User Found: ', currentUser);
       AsyncStorage.setItem('currentUser', JSON.stringify(currentUser));
       this.props.getUserData(currentUser);
     }
@@ -116,7 +116,7 @@ class Splash extends Component {
   }
 
    loginUser = async () =>  {
-     console.log('user settings',this.props.settings);
+     //console.log('user settings',this.props.settings);
     //console.log('Login Button Clicked!');
         const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync('325349167872243', {
             permissions: ['public_profile', 'user_events']
@@ -161,7 +161,7 @@ class Splash extends Component {
                       <Image style={styles.logo} source={require('../../assets/logo.png')} />
                       <Text style={styles.subtitle}>Enjoy {this.state.count} Events This Month</Text>
 
-                      <Button style={styles.loginButton} bordered rounded onPress={this.loginUser}>
+                      <Button style={styles.loginButton} rounded onPress={this.loginUser}>
                         <Icon style={styles.fbIcon} name='logo-facebook' />
                         <Text style={styles.loginButtonText} uppercase={false}>Login With Facebook</Text>
                       </Button>
@@ -200,23 +200,24 @@ const styles = StyleSheet.create({
   loginButton: {
     marginTop: 100,
     alignSelf: 'center',
-    borderColor: '#fff',
-    borderWidth: 2,
+    backgroundColor: '#fff',
+    //borderWidth: 2,
     paddingLeft: 15,
     paddingRight: 15,
     paddingTop: 10,
-    paddingBottom: 15,
+    paddingBottom: 12,
     marginLeft: 10
   },
   loginButtonText:{
-    fontSize: 16,
-    color: '#fff',
-    marginLeft: -15
+    fontSize: 15,
+    color: '#e3690f',
+    marginLeft: -15,
+    paddingBottom:3
   },
   fbIcon:{
     paddingTop: 3,
     fontSize: 30,
-    color: '#fff',
+    color: '#e3690f',
   }
 });
 

@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
         textAlign:'center'
     },
     queryMessage:{
-        backgroundColor: '#ebe8dd',
+        backgroundColor: '#e3690f',
         padding: 10,
         flex:1,
         alignItems: 'center',
@@ -306,12 +306,12 @@ const styles = StyleSheet.create({
     },
     queryMessageText:{
         fontSize: 13,
-        color: '#767253',
+        color: '#fff',
         marginTop: -2,
     },
     queryMessageIcon:{
         fontSize: 18,
-        color: '#767253',
+        color: '#fff',
         paddingTop:4,
     },
     loadingMore:{

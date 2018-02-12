@@ -8,7 +8,7 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, ...action.payload}
             //return state;
         case 'USER_EVENTS':
-            console.log('User Events: ', state.events, action.payload);
+            //console.log('User Events: ', state.events, action.payload);
             return {...state, ...{events: action.payload}};
         default:
             return state;

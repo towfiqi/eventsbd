@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Content, Button, Icon } from 'native-base';
-import { StyleSheet, Image, Text, View, AsyncStorage, TouchableOpacity, ActivityIndicator } from 'react-native'; 
+import { StyleSheet, Image, Text, View, AsyncStorage, TouchableOpacity, ActivityIndicator, ImageBackground } from 'react-native'; 
 import { LinearGradient, MapView } from 'expo';
 import { dateDifference, getDateVerb, monthName, getHours, getAddress } from '../../helpers/index';
 import UserEvents from '../UserEvents/UserEvents';
@@ -88,7 +88,7 @@ class Event extends Component {
 
                         <Text style={styles.dateDiff}><Icon style={styles.dateDiffIcon}  name="ios-send" /> {dateDiff}</Text>
                         <LinearGradient colors={['transparent', '#000000']} style={styles.cardItemImageShadow} />
-                        <Image style={styles.cardItemImage} source={{uri: cover}} />
+                        {cover ? <Image style={styles.cardItemImage} source={{uri: cover}} /> : <ImageBackground source={require('../../assets/splash.png')} style={styles.cardItemFakeImage} />}
                     </Content>
 
 
@@ -197,6 +197,12 @@ const styles = StyleSheet.create({
     },
     cardItemImage:{
         width: null, 
+        flex: 1,
+        height: 200,
+        backgroundColor: 'transparent',
+    },
+    cardItemFakeImage:{
+        width: '100%', 
         flex: 1,
         height: 200,
         backgroundColor: 'transparent',

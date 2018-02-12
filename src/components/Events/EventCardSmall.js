@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Container, Content, Body, Title, Button, Icon  } from 'native-base';
-import { StyleSheet,  Image, Text, View, TouchableOpacity } from 'react-native'; 
+import { StyleSheet,  Image, Text, View, TouchableOpacity, ImageBackground } from 'react-native'; 
 import { dateDifference, getDateVerb, monthName, getHours, getAddress, getWeek } from '../../helpers/index';
 
 class EventCardSmall extends PureComponent {
@@ -38,7 +38,7 @@ class EventCardSmall extends PureComponent {
                 <View key={id} style={this.props.active === id ? styles.eventCardAtive : styles.eventCard}>
                     <View style={styles.mapEventLeft}>
                         {this.props.active === id && <Button style={styles.eventButton} onPress={()=> this.props.navigation.navigate("Event", {event: this.props.event})}><Icon name="md-exit"/></Button>}
-                        <Image style={styles.mapEventImage} source={{uri: cover}} />
+                        {cover ? <Image style={styles.mapEventImage} source={{uri: cover}} /> : <ImageBackground source={require('../../assets/splash.png')} style={styles.mapEventFakeImage} />}
                     </View>
                     <View style={styles.mapEventRight}>
                         <Text style={styles.mapEventTitle} numberOfLines={2}>{name}</Text>
@@ -100,6 +100,13 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 50,
         maxHeight:100,
+    },
+    mapEventFakeImage:{
+        width: 100, 
+        flex: 1,
+        height: 50,
+        maxHeight:100,
+        backgroundColor: '#eee'
     },
     eventButton:{
         position:'absolute',

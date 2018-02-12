@@ -10,9 +10,11 @@ export const getUserData = (userdata) => {
 
 export const setUserEvents = (events)=> {
     return async (dispatch) => {
+        //console.log('Fetch Started!');
         const headers = {'Content-Type': 'application/json', 'X-Parse-REST-API-Key': keys.apiKey, 'X-Parse-Application-Id': keys.appID };
         var currentUser =  await AsyncStorage.getItem('currentUser');
         currentUser = JSON.parse(currentUser);
+        //console.log(currentUser);
         fetch(`https://parseapi.back4app.com/classes/Users/${currentUser.objectId}`,
         { method:'put', headers: headers, body:JSON.stringify({"events":events})  }).then( (faved)=> {
         const isEventsUpdated = JSON.parse(faved._bodyText).updatedAt ? true : false;

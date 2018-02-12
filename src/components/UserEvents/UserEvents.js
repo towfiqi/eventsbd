@@ -12,7 +12,7 @@ class UserEvents extends Component {
         this.state = { events: [], pastEvents: []}
     }
 
-    async componentWillMount(){
+    componentWillMount(){
         var userEvents = this.props.userData.events;
         //console.log('User Events Root: ',userEvents);
         setTimeout(()=> {

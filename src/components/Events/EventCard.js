@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Text, Title, Card, CardItem, Body, Icon } from 'native-base';
-import { StyleSheet, Image, View, TouchableOpacity, ActivityIndicator } from 'react-native'; 
+import { StyleSheet, Image, View, TouchableOpacity, ActivityIndicator, ImageBackground } from 'react-native'; 
 import {monthName, getAddress, dateDifference, getDateVerb} from '../../helpers/index'
 import { setUserEvents } from '../../actions/userActions';
 
@@ -23,10 +23,13 @@ class EventCard extends PureComponent {
         var newEvents = [...this.props.userData.events];
         //get current events from the store.
         if(this.props.userData.events.includes(eventID)){  
+            //console.log('has Item, remove it', eventID);
             newEvents.pop(eventID);
         }else{ 
+            //console.log('Does not have Item, add it', eventID);
             newEvents.push(eventID);
         }
+        //console.log(newEvents);
         this.props.setUserEvents(newEvents);
     }
 
@@ -70,7 +73,7 @@ class EventCard extends PureComponent {
                         <CardItem style={styles.cardItemHead} cardBody>
                             
                                 {/* <LinearGradient colors={['transparent', '#000000']} style={styles.cardItemImageShadow} /> */}
-                                <Image style={styles.cardItemImage} source={{uri: cover}} />
+                                {cover ? <Image style={styles.cardItemImage} source={{uri: cover}} /> : <ImageBackground source={require('../../assets/splash.png')} style={styles.cardItemFakeImage} />}
                             
                         </CardItem>
                     </TouchableOpacity>
@@ -134,7 +137,7 @@ const styles= StyleSheet.create({
         borderTopLeftRadius: 5,
         borderTopRightRadius: 5,
         position: 'relative',
-        backgroundColor: '#000',
+        backgroundColor: '#eee',
         padding: 0
     },
     cardItemImage:{
@@ -145,6 +148,14 @@ const styles= StyleSheet.create({
         borderTopLeftRadius: 5,
         borderTopRightRadius: 5,
         //marginTop: 5
+    },
+    cardItemFakeImage:{
+        flex:1,
+        width: '100%',
+        height: 200,
+        borderTopLeftRadius: 5,
+        borderTopRightRadius: 5,
+        backgroundColor: '#eee'
     },
     cardItemImageShadow:{
         backgroundColor: 'transparent',
