@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Content, Text, Button, Icon } from 'native-base';
-import { Image, ImageBackground, StyleSheet, AsyncStorage, NetInfo } from 'react-native';
+import { Image, ImageBackground, StyleSheet, AsyncStorage, NetInfo, ActivityIndicator, View } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import Expo from "expo";
@@ -19,7 +19,7 @@ class Splash extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { loading: true, count: 0 };
+    this.state = { loading: true, count: 0 , existing_user: false};
   }
 
   async componentWillMount() {
@@ -45,6 +45,7 @@ class Splash extends Component {
       var last_login = currentUser.last_login ? new Date(currentUser.last_login).valueOf() : '';
       var current_time  = new Date().valueOf() 
        if((last_login - current_time)  < 604800000 ){
+        this.setState({ existing_user: true});
         const userFetched = await fetch(`https://parseapi.back4app.com/classes/Users?where={"id":"${currentUser.id}"}`,{ method:'get', headers: headers });
         const {results} =  JSON.parse(userFetched._bodyText);
         currentUser.events = results[0].events && results[0].events;
@@ -160,11 +161,14 @@ class Splash extends Component {
                   <Content padder style={styles.content}>
                       <Image style={styles.logo} source={require('../../assets/logo.png')} />
                       <Text style={styles.subtitle}>Enjoy {this.state.count} Events This Month</Text>
-
-                      <Button style={styles.loginButton} rounded onPress={this.loginUser}>
-                        <Icon style={styles.fbIcon} name='logo-facebook' />
-                        <Text style={styles.loginButtonText} uppercase={false}>Login With Facebook</Text>
-                      </Button>
+                      {this.state.existing_user ? 
+                        <View style={styles.frontLoader}><ActivityIndicator size="large" color="#fff" /></View> 
+                      :
+                        <Button style={styles.loginButton} rounded onPress={this.loginUser}>
+                          <Icon style={styles.fbIcon} name='logo-facebook' />
+                          <Text style={styles.loginButtonText} uppercase={false}>Login With Facebook</Text>
+                        </Button>
+                      }
                   </Content>
               </ImageBackground>
             </Container>
@@ -218,6 +222,10 @@ const styles = StyleSheet.create({
     paddingTop: 3,
     fontSize: 30,
     color: '#e3690f',
+  },
+  frontLoader:{
+    marginTop: 60,
+    flex:1
   }
 });
 

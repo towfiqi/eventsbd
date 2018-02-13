@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Header,  Right, Left, Button, Icon} from 'native-base';
-import { StyleSheet, FlatList, Image, Text, View, ActivityIndicator } from 'react-native'; 
+import { StyleSheet, FlatList, Image, Text, View, ActivityIndicator, Platform } from 'react-native'; 
 import { capitalize, getWeek, getLastDayOfMonth, getNextMonth } from '../../helpers/index';
 import keys from '../../../keys';
 import EventCard from './EventCard';
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
     dateButton:{
         flex: 1,
         flexDirection: 'column',
-        top: -5
+        top: Platform.OS === 'ios' ? -7 : -2
         //marginTop: -6
     },
     sortIcon:{
